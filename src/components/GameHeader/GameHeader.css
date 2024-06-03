@@ -1,0 +1,47 @@
+.game-header-container hr {
+  border-top: 0.5rem solid rgb(55, 2, 2);
+  margin: 0;
+}
+
+.header-names-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+}
+
+.header-home-name {
+  background-color: #005a9c;
+  height: 100%;
+  color: white;
+}
+
+.header-away-name {
+  background-color: #ef3e42;
+  height: 100%;
+  color: white;
+}
+
+.header-scores-container {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-scores {
+  background-color: black;
+  color: white;
+  height: 100%;
+}
+
+.header-leg-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ef3e42;
+  height: 100%;
+}
