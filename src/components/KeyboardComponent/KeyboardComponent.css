@@ -1,0 +1,54 @@
+.equation-container {
+  height: 100%;
+  width: 100%;
+  color: white;
+  background-color: rgb(53, 52, 52);
+  padding: 1.5rem;
+}
+
+.keyboard-delete {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: rgb(188, 5, 5);
+}
+
+.keyboard-missed {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: rgb(188, 5, 5);
+}
+
+.keyboard-enter {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: green;
+}
+
+.keyboard-number {
+  width: 100%;
+  background-color: rgb(203, 203, 203);
+  color: black;
+}
+
+.keyboard-quickHit {
+  width: 100%;
+  background-color: rgb(85, 86, 86);
+  color: white;
+}
+
+.keyboard-ton80 {
+  width: 100%;
+  background-color: rgb(188, 5, 5);
+}
+
+.keyboard-zero {
+  width: 100%;
+  background-color: rgb(203, 203, 203);
+  color: black;
+}
+
+.keyboard-eqx-buttons {
+  background-color: rgb(46, 47, 47);
+  color: white;
+  width: 100%;
+}
