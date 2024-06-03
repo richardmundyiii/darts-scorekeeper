@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import KeyboardComponent from "../KeyboardComponent/KeyboardComponent";
 import GameHeader from "../GameHeader/GameHeader";
 import GameBoard01 from "../GameBoard01/GameBoard01";
