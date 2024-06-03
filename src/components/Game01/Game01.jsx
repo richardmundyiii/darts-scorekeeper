@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { Box, Container } from "@mui/material";
 import KeyboardComponent from "../KeyboardComponent/KeyboardComponent";
+import GameHeader from "../GameHeader/GameHeader";
+import GameBoard01 from "../GameBoard01/GameBoard01";
 
 export default function Game01() {
   return (
     <>
-      <h1>Game 01</h1>
-      <KeyboardComponent />
+      <Container sx={{ height: "100vh" }}>
+        <GameHeader />
+        <GameBoard01 />
+        <KeyboardComponent />
+      </Container>
     </>
   );
 }

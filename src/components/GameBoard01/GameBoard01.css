@@ -1,0 +1,11 @@
+.game-board-container {
+  background-color: black;
+  width: 100%;
+  height: 65vh;
+  color: white;
+}
+
+.board-middle {
+  border-left: 0.15rem solid white;
+  border-right: 0.15rem solid white;
+}
