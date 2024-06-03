@@ -12,13 +12,13 @@ export default function HomePage() {
           alignItems: "center",
         }}
       >
-        <Button variant="contained" sx={{ p: 2, m: 3 }}>
+        <Button variant="contained" sx={{ p: 2, m: 3, width: "15rem" }}>
           301
         </Button>
-        <Button variant="contained" sx={{ p: 2, m: 3 }}>
+        <Button variant="contained" sx={{ p: 2, m: 3, width: "15rem" }}>
           501
         </Button>
-        <Button variant="contained" sx={{ p: 2, m: 3 }}>
+        <Button variant="contained" sx={{ p: 2, m: 3, width: "15rem" }}>
           Cricket
         </Button>
       </div>
