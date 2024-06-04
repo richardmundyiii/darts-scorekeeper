@@ -52,3 +52,11 @@
   color: white;
   width: 100%;
 }
+
+.keyboard-hotkey-button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: rgb(85, 85, 85);
+  border-radius: 0.25rem;
+  color: white;
+}
