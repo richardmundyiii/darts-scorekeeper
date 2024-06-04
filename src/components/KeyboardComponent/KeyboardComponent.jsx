@@ -1,29 +1,35 @@
 // src/components/KeyboardComponent/KeyboardComponent.jsx
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, Container, Grid } from "@mui/material";
 import "./KeyboardComponent.css";
 
-export default function KeyboardComponent({ onEnter }) {
+export default function KeyboardComponent({ onEnter, onSpecialEnter }) {
   const [equation, setEquation] = useState("");
   const [missButton, setMissButton] = useState(true);
   const [tonButton, setTonButton] = useState(true);
+  const gameOver = useSelector((state) => state.game.gameOver);
 
   const handleNumberClick = (num) => {
-    setEquation((prev) => prev + num);
-    setMissButton(false);
-    setTonButton(false);
+    if (!gameOver) {
+      setEquation((prev) => prev + num);
+      setMissButton(false);
+      setTonButton(false);
+    }
   };
 
   const handleDeleteClick = () => {
-    setEquation((prev) => prev.slice(0, -1));
-    if (equation.length <= 1) {
-      setMissButton(true);
-      setTonButton(true);
+    if (!gameOver) {
+      setEquation((prev) => prev.slice(0, -1));
+      if (equation.length <= 1) {
+        setMissButton(true);
+        setTonButton(true);
+      }
     }
   };
 
   const handleEnterClick = () => {
-    if (equation) {
+    if (equation && !gameOver) {
       onEnter(equation);
       setEquation("");
       setMissButton(true);
@@ -32,12 +38,42 @@ export default function KeyboardComponent({ onEnter }) {
   };
 
   const handleSpecialButtonClick = (value) => {
-    setEquation((prev) => prev + value);
+    if (!gameOver) {
+      onSpecialEnter(value);
+    }
+  };
+
+  const handleMissClick = () => {
+    if (!gameOver) {
+      onSpecialEnter(0);
+    }
+  };
+
+  const handleTon80Click = () => {
+    if (!gameOver) {
+      onSpecialEnter(180);
+    }
+  };
+
+  const handleMultiplyClick = () => {
+    if (!gameOver) {
+      setEquation((prev) => prev + " X ");
+      setMissButton(false);
+      setTonButton(false);
+    }
+  };
+
+  const handleAddClick = () => {
+    if (!gameOver) {
+      setEquation((prev) => prev + " + ");
+      setMissButton(false);
+      setTonButton(false);
+    }
   };
 
   return (
     <>
-      <Container maxWidth>
+      <Container>
         <Grid
           container
           sx={{
@@ -53,6 +89,7 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-delete"
               onClick={handleDeleteClick}
+              disabled={gameOver}
             >
               DEL
             </Button>
@@ -62,7 +99,12 @@ export default function KeyboardComponent({ onEnter }) {
           </Grid>
           <Grid item xs={3}>
             {missButton ? (
-              <Button variant="contained" className="keyboard-missed">
+              <Button
+                variant="contained"
+                className="keyboard-missed"
+                onClick={handleMissClick}
+                disabled={gameOver}
+              >
                 Miss
               </Button>
             ) : (
@@ -70,24 +112,27 @@ export default function KeyboardComponent({ onEnter }) {
                 variant="contained"
                 className="keyboard-enter"
                 onClick={handleEnterClick}
+                disabled={gameOver}
               >
                 Enter
               </Button>
             )}
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(26)}
+              disabled={gameOver}
             >
               26
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={3}>
             <Button
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(1)}
+              disabled={gameOver}
             >
               1
             </Button>
@@ -97,6 +142,7 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(2)}
+              disabled={gameOver}
             >
               2
             </Button>
@@ -106,31 +152,35 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(3)}
+              disabled={gameOver}
             >
               3
             </Button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(57)}
+              disabled={gameOver}
             >
               57
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(29)}
+              disabled={gameOver}
             >
               29
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={3}>
             <Button
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(4)}
+              disabled={gameOver}
             >
               4
             </Button>
@@ -140,6 +190,7 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(5)}
+              disabled={gameOver}
             >
               5
             </Button>
@@ -149,31 +200,35 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(6)}
+              disabled={gameOver}
             >
               6
             </Button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(60)}
+              disabled={gameOver}
             >
               60
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(41)}
+              disabled={gameOver}
             >
               41
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={3}>
             <Button
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(7)}
+              disabled={gameOver}
             >
               7
             </Button>
@@ -183,6 +238,7 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(8)}
+              disabled={gameOver}
             >
               8
             </Button>
@@ -192,38 +248,47 @@ export default function KeyboardComponent({ onEnter }) {
               variant="contained"
               className="keyboard-number"
               onClick={() => handleNumberClick(9)}
+              disabled={gameOver}
             >
               9
             </Button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(95)}
+              disabled={gameOver}
             >
               95
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              className="keyboard-quickHit"
+            <button
+              className="keyboard-hotkey-button"
               onClick={() => handleSpecialButtonClick(45)}
+              disabled={gameOver}
             >
               45
-            </Button>
+            </button>
           </Grid>
           <Grid item xs={3}>
             <Button
               variant="contained"
               className="keyboard-eqx-buttons"
-              onClick={() => handleSpecialButtonClick("X")}
+              onClick={handleMultiplyClick}
+              disabled={gameOver}
             >
               X
             </Button>
           </Grid>
           <Grid item xs={3}>
             {tonButton ? (
-              <Button variant="contained" className="keyboard-ton80">
+              <Button
+                variant="contained"
+                className="keyboard-ton80"
+                onClick={handleTon80Click}
+                disabled={gameOver}
+              >
                 T80
               </Button>
             ) : (
@@ -231,6 +296,7 @@ export default function KeyboardComponent({ onEnter }) {
                 variant="contained"
                 className="keyboard-zero"
                 onClick={() => handleNumberClick(0)}
+                disabled={gameOver}
               >
                 0
               </Button>
@@ -240,19 +306,20 @@ export default function KeyboardComponent({ onEnter }) {
             <Button
               className="keyboard-eqx-buttons"
               variant="contained"
-              onClick={() => handleSpecialButtonClick("+")}
+              onClick={handleAddClick}
+              disabled={gameOver}
             >
               +
             </Button>
           </Grid>
           <Grid item xs={1.5}>
-            <Button
-              variant="contained"
-              className="keyboard-quickHit"
-              onClick={() => handleSpecialButtonClick("100")}
+            <button
+              className="keyboard-hotkey-button"
+              onClick={() => handleSpecialButtonClick(100)}
+              disabled={gameOver}
             >
               Ton
-            </Button>
+            </button>
           </Grid>
         </Grid>
       </Container>
