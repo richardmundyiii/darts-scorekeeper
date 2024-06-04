@@ -31,16 +31,16 @@ export default function Game01() {
 
   return (
     <>
-      <Container sx={{ height: "100vh" }}>
+      <Container sx={{ mt: 1, height: "100vh" }}>
         <GameHeader />
         <GameBoard01 />
         <KeyboardComponent
           onEnter={handleEnter}
           onSpecialEnter={handleSpecialEnter}
         />
-        <Button variant="contained" onClick={handleNewGame}>
+        {/* <Button variant="contained" onClick={handleNewGame}>
           New Game
-        </Button>
+        </Button> */}
       </Container>
     </>
   );

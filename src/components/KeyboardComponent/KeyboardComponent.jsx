@@ -1,14 +1,21 @@
 // src/components/KeyboardComponent/KeyboardComponent.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Container, Grid } from "@mui/material";
 import "./KeyboardComponent.css";
 
 export default function KeyboardComponent({ onEnter, onSpecialEnter }) {
-  const [equation, setEquation] = useState("");
+  const equationFromState = useSelector((state) => state.game.equation);
   const [missButton, setMissButton] = useState(true);
   const [tonButton, setTonButton] = useState(true);
   const gameOver = useSelector((state) => state.game.gameOver);
+  const [equation, setEquation] = useState("");
+
+  useEffect(() => {
+    if (equationFromState) {
+      setEquation(equationFromState);
+    }
+  }, [equationFromState]);
 
   const handleNumberClick = (num) => {
     if (!gameOver) {
@@ -43,286 +50,139 @@ export default function KeyboardComponent({ onEnter, onSpecialEnter }) {
     }
   };
 
-  const handleMissClick = () => {
-    if (!gameOver) {
-      onSpecialEnter(0);
-    }
-  };
+  const handleMissClick = () => handleSpecialButtonClick(0);
+  const handleTon80Click = () => handleSpecialButtonClick(180);
+  const handleMultiplyClick = () => handleNumberClick(" X ");
+  const handleAddClick = () => handleNumberClick(" + ");
 
-  const handleTon80Click = () => {
-    if (!gameOver) {
-      onSpecialEnter(180);
-    }
-  };
+  const hotkeyButtonsLeft = [
+    { label: "26", onClick: () => handleSpecialButtonClick(26) },
+    { label: "57", onClick: () => handleSpecialButtonClick(57) },
+    { label: "29", onClick: () => handleSpecialButtonClick(29) },
+    { label: "60", onClick: () => handleSpecialButtonClick(60) },
+  ];
 
-  const handleMultiplyClick = () => {
-    if (!gameOver) {
-      setEquation((prev) => prev + " X ");
-      setMissButton(false);
-      setTonButton(false);
-    }
-  };
+  const hotkeyButtonsRight = [
+    { label: "41", onClick: () => handleSpecialButtonClick(41) },
+    { label: "95", onClick: () => handleSpecialButtonClick(95) },
+    { label: "45", onClick: () => handleSpecialButtonClick(45) },
+    { label: "Ton", onClick: () => handleSpecialButtonClick(100) },
+  ];
 
-  const handleAddClick = () => {
-    if (!gameOver) {
-      setEquation((prev) => prev + " + ");
-      setMissButton(false);
-      setTonButton(false);
-    }
-  };
+  const calculatorButtons = [
+    { label: "1", onClick: () => handleNumberClick(1) },
+    { label: "2", onClick: () => handleNumberClick(2) },
+    { label: "3", onClick: () => handleNumberClick(3) },
+    { label: "4", onClick: () => handleNumberClick(4) },
+    { label: "5", onClick: () => handleNumberClick(5) },
+    { label: "6", onClick: () => handleNumberClick(6) },
+    { label: "7", onClick: () => handleNumberClick(7) },
+    { label: "8", onClick: () => handleNumberClick(8) },
+    { label: "9", onClick: () => handleNumberClick(9) },
+    {
+      label: tonButton ? "T80" : "0",
+      onClick: tonButton ? handleTon80Click : () => handleNumberClick(0),
+    },
+    { label: "X", onClick: handleMultiplyClick },
+    { label: "+", onClick: handleAddClick },
+  ];
 
   return (
-    <>
-      <Container>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          className="keyboard-container"
-        >
-          <Grid item xs={3}>
+    <Container>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        className="keyboard-container"
+      >
+        <Grid item xs={3}>
+          <Button
+            variant="contained"
+            className="keyboard-delete"
+            onClick={handleDeleteClick}
+            disabled={gameOver}
+          >
+            DEL
+          </Button>
+        </Grid>
+        <Grid item xs={6} className="equation-container">
+          {equation}
+        </Grid>
+        <Grid item xs={3}>
+          {missButton ? (
             <Button
               variant="contained"
-              className="keyboard-delete"
-              onClick={handleDeleteClick}
+              className="keyboard-missed"
+              onClick={handleMissClick}
               disabled={gameOver}
             >
-              DEL
+              Miss
             </Button>
+          ) : (
+            <Button
+              variant="contained"
+              className="keyboard-enter"
+              onClick={handleEnterClick}
+              disabled={gameOver}
+            >
+              Enter
+            </Button>
+          )}
+        </Grid>
+
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={1.5}>
+            {hotkeyButtonsLeft.map((btn, index) => (
+              <Grid item key={index}>
+                <Button
+                  className="keyboard-hotkey-button"
+                  onClick={btn.onClick}
+                  disabled={gameOver}
+                >
+                  {btn.label}
+                </Button>
+              </Grid>
+            ))}
           </Grid>
-          <Grid item xs={6} className="equation-container">
-            {equation}
-          </Grid>
-          <Grid item xs={3}>
-            {missButton ? (
-              <Button
-                variant="contained"
-                className="keyboard-missed"
-                onClick={handleMissClick}
-                disabled={gameOver}
-              >
-                Miss
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                className="keyboard-enter"
-                onClick={handleEnterClick}
-                disabled={gameOver}
-              >
-                Enter
-              </Button>
-            )}
+          <Grid item xs={9}>
+            <Grid container spacing={1}>
+              {calculatorButtons.map((btn, index) => (
+                <Grid item xs={4} key={index}>
+                  <Button
+                    variant="contained"
+                    className={
+                      btn.label === "X" || btn.label === "+"
+                        ? "keyboard-eqx-buttons"
+                        : "keyboard-number"
+                    }
+                    onClick={btn.onClick}
+                    disabled={gameOver}
+                  >
+                    {btn.label}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
           <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(26)}
-              disabled={gameOver}
-            >
-              26
-            </button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(1)}
-              disabled={gameOver}
-            >
-              1
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(2)}
-              disabled={gameOver}
-            >
-              2
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(3)}
-              disabled={gameOver}
-            >
-              3
-            </Button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(57)}
-              disabled={gameOver}
-            >
-              57
-            </button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(29)}
-              disabled={gameOver}
-            >
-              29
-            </button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(4)}
-              disabled={gameOver}
-            >
-              4
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(5)}
-              disabled={gameOver}
-            >
-              5
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(6)}
-              disabled={gameOver}
-            >
-              6
-            </Button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(60)}
-              disabled={gameOver}
-            >
-              60
-            </button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(41)}
-              disabled={gameOver}
-            >
-              41
-            </button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(7)}
-              disabled={gameOver}
-            >
-              7
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(8)}
-              disabled={gameOver}
-            >
-              8
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-number"
-              onClick={() => handleNumberClick(9)}
-              disabled={gameOver}
-            >
-              9
-            </Button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(95)}
-              disabled={gameOver}
-            >
-              95
-            </button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(45)}
-              disabled={gameOver}
-            >
-              45
-            </button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              className="keyboard-eqx-buttons"
-              onClick={handleMultiplyClick}
-              disabled={gameOver}
-            >
-              X
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            {tonButton ? (
-              <Button
-                variant="contained"
-                className="keyboard-ton80"
-                onClick={handleTon80Click}
-                disabled={gameOver}
-              >
-                T80
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                className="keyboard-zero"
-                onClick={() => handleNumberClick(0)}
-                disabled={gameOver}
-              >
-                0
-              </Button>
-            )}
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              className="keyboard-eqx-buttons"
-              variant="contained"
-              onClick={handleAddClick}
-              disabled={gameOver}
-            >
-              +
-            </Button>
-          </Grid>
-          <Grid item xs={1.5}>
-            <button
-              className="keyboard-hotkey-button"
-              onClick={() => handleSpecialButtonClick(100)}
-              disabled={gameOver}
-            >
-              Ton
-            </button>
+            {hotkeyButtonsRight.map((btn, index) => (
+              <Grid item key={index}>
+                <Button
+                  className="keyboard-hotkey-button"
+                  onClick={btn.onClick}
+                  disabled={gameOver}
+                >
+                  {btn.label}
+                </Button>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-      </Container>
-    </>
+      </Grid>
+    </Container>
   );
 }
