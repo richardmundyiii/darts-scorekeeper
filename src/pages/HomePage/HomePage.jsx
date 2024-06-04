@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -16,10 +17,10 @@ export default function HomePage() {
           301
         </Button>
         <Button variant="contained" sx={{ p: 2, m: 3, width: "15rem" }}>
-          501
+          <Link to="/game/501">501</Link>
         </Button>
         <Button variant="contained" sx={{ p: 2, m: 3, width: "15rem" }}>
-          Cricket
+          <Link to="/game/cricket">Cricket</Link>
         </Button>
       </div>
     </>
