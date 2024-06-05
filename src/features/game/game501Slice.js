@@ -1,4 +1,3 @@
-// src/features/game/gameSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -13,8 +12,8 @@ const initialState = {
   editingPlayer: null,
 };
 
-const gameSlice = createSlice({
-  name: "game",
+const game501Slice = createSlice({
+  name: "game501",
   initialState,
   reducers: {
     enterScore: (state, action) => {
@@ -53,7 +52,7 @@ const gameSlice = createSlice({
       if (player.score - score >= 0) {
         player.score -= score;
       } else {
-        state.history.push({ player: playerIndex, score: 0 });
+        state.history.push({ player: playerIndex, score: 0, equation: "0" });
       }
       state.history.push({
         player: playerIndex,
@@ -66,12 +65,11 @@ const gameSlice = createSlice({
       } else {
         state.currentPlayer = (state.currentPlayer + 1) % 2;
       }
-      state.equation = "";
-      state.editingPlayer = null;
+      state.equation = ""; // Reset equation
+      state.editingPlayer = null; // Reset editing mode
     },
     setEquationFromHistory: (state, action) => {
       const { equation, player } = action.payload;
-      console.log(player, equation);
       state.equation = equation.toString();
       state.editingPlayer = player;
     },
@@ -84,6 +82,6 @@ export const {
   specialEnterScore,
   setEquationFromHistory,
   resetGame,
-} = gameSlice.actions;
+} = game501Slice.actions;
 
-export default gameSlice.reducer;
+export default game501Slice.reducer;

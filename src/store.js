@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import gameReducer from "./features/game/gameSlice";
-import cricketReducer from "./features/cricket/cricketSlice";
 
 export const store = configureStore({
   reducer: {
-    game: gameReducer,
+    game501: gameReducer,
+    game301: game301Reducer,
+    team: teamReducer,
     cricket: cricketReducer,
+    chicago: chicagoReducer,
   },
 });
