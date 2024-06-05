@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { resetGame } from "./game501Slice";
 
 const initialPlayers = Array.from({ length: 4 }, (_, index) => ({
   name: `Player ${index + 1}`,
